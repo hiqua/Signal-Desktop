@@ -1389,7 +1389,7 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('powerMonitorResume', () => {
     log.info('powerMonitor: resume');
-    server?.checkSockets();
+  manualConnect(); // Explicitly trigger a reconnection attempt
     server?.cancelInflightRequests('powerMonitorResume');
     resumeTasksWithTimeout();
   });

@@ -1575,6 +1575,22 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
   });
 }
 
+if (getEnvironment() === Environment.Test) {
+  ipc.on('test-simulate-power-suspend', () => {
+    log.info('TEST: Simulating powerMonitorSuspend');
+    if (mainWindow && mainWindow.webContents) {
+      mainWindow.webContents.send('power-channel:suspend');
+    }
+  });
+
+  ipc.on('test-simulate-power-resume', () => {
+    log.info('TEST: Simulating powerMonitorResume');
+    if (mainWindow && mainWindow.webContents) {
+      mainWindow.webContents.send('power-channel:resume');
+    }
+  });
+}
+
 const runSQLCorruptionHandler = async () => {
   // This is a glorified event handler. Normally, this promise never resolves,
   // but if there is a corruption error triggered by any query that we run
